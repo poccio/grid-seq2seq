@@ -25,11 +25,11 @@ class RougeGenerationCallback(GenerationCallback):
         self.rouge = load_metric("rouge")
 
     def __call__(
-        self, translations: List[Tuple[str, str, Optional[str]]], module: pl.LightningModule
+        self, translations: List[Tuple[str, List[str], Optional[str]]], module: pl.LightningModule
     ):
         assert all(t[2] is not None for t in translations)
         results = self.rouge.compute(
-            predictions=[t[1] for t in translations], references=[t[2] for t in translations]
+            predictions=[t[1][0] for t in translations], references=[t[2] for t in translations]
         )
         for k, v in results.items():
             module.log(f"val_{k}", v.mid.fmeasure, prog_bar=True, on_step=False, on_epoch=True)
@@ -112,13 +112,15 @@ class TextGenerationCallback(pl.Callback):
                             logger.debug(
                                 f"Translating translation path {translation_path} for configuration {name}: {i} lines translated"
                             )
+
                         for translation in sample_translations:
                             wandb_table.add_data(
                                 name, source_type, source, translation, gold_output
                             )
-                            spec_name2translation_pairs[name].append(
-                                (source, translation, gold_output)
-                            )
+
+                        spec_name2translation_pairs[name].append(
+                            (source, sample_translations, gold_output)
+                        )
 
                     if self._epoch == 0:
                         # do only a dry run on first epoch (correspond to sanity check run)
