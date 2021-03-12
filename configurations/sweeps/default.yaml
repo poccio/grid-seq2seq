@@ -1,7 +1,7 @@
 command:
   - ${args_no_hyphens}
 
-program: nlp_gen/scripts/model/train.py
+program: src/scripts/model/train.py
 method: bayes
 metric:
   name: val_loss

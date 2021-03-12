@@ -7,7 +7,7 @@ from datasets import load_dataset
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from nlp_gen.utils.logging import get_project_logger
+from src.utils.logging import get_project_logger
 
 logger = get_project_logger(__name__)
 

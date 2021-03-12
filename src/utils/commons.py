@@ -3,7 +3,7 @@ from typing import Optional, List
 
 import numpy as np
 
-from nlp_gen.utils.logging import get_project_logger
+from src.utils.logging import get_project_logger
 
 logger = get_project_logger(__name__)
 

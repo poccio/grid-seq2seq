@@ -8,8 +8,8 @@ from torch.cuda.amp import autocast
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from nlp_gen.data.datasets.parallel import ParallelDataset
-from nlp_gen.pl_modules.utils import load_pl_module_from_checkpoint
+from src.data.datasets.generation import ParallelDataset
+from src.pl_modules.utils import load_pl_module_from_checkpoint
 
 
 def translate(

@@ -8,9 +8,9 @@ import torch
 import wandb
 from datasets import load_metric
 
-from nlp_gen.scripts.model.translate import translate
+from src.scripts.model.translate import translate
 
-from nlp_gen.utils.logging import get_project_logger
+from src.utils.logging import get_project_logger
 
 logger = get_project_logger(__name__)
 

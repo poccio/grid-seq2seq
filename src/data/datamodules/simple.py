@@ -5,7 +5,7 @@ import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 from transformers import PreTrainedTokenizer
 
-from nlp_gen.utils.logging import get_project_logger
+from src.utils.logging import get_project_logger
 
 logger = get_project_logger(__name__)
 

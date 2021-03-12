@@ -1,11 +1,11 @@
 # @package _group_
 
 datamodule:
-  _target_: 'nlp_gen.data.datamodules.cnn_dm.CNNDMDataModule'
+  _target_: 'src.data.datamodules.cnn_dm.CNNDMDataModule'
   data_dir: 'data/cnn-dm'
   num_workers: 0
   dataset:
-    _target_: 'nlp_gen.data.datasets.parallel.ParallelDataset.from_file'
+    _target_: 'src.data.datasets.parallel.ParallelDataset.from_file'
     max_tokens_per_batch: 1300
     min_length: 5
     max_length: 500

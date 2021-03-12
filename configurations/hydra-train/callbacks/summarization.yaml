@@ -1,10 +1,10 @@
 # @package _group_
 
 callbacks:
-  - _target_: "nlp_gen.callbacks.generation.TextGenerationCallback"
+  - _target_: "src.callbacks.generation.TextGenerationCallback"
     generation_callbacks:
       rouge:
-        _target_: 'nlp_gen.callbacks.generation.RougeGenerationCallback'
+        _target_: 'src.callbacks.generation.RougeGenerationCallback'
     generations:
       - name: "beam1"
         glob_translate_path: "data/cnn-dm/validation.tsv"

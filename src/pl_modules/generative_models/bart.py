@@ -4,12 +4,12 @@ import pytorch_lightning as pl
 import torch
 from transformers import AutoTokenizer, BartForConditionalGeneration, AutoConfig
 
-from nlp_gen.pl_modules.generative_models.generative_model import (
+from src.pl_modules.generative_models.generative_model import (
     GenerativeModel,
     TAGenerativeModelOutput,
     GenGenerativeModelOutput,
 )
-from nlp_gen.pl_modules.utils import label_smoothed_nll_loss
+from src.pl_modules.utils import label_smoothed_nll_loss
 
 
 class BartGenerativeModel(GenerativeModel):

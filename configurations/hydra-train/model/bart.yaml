@@ -1,8 +1,8 @@
 # @package _group_
 
-_target_: 'nlp_gen.pl_modules.generative_pl_module.GenerativePLModule'
+_target_: 'src.pl_modules.generative_pl_module.GenerativePLModule'
 generative_model:
-  _target_: 'nlp_gen.pl_modules.generative_models.bart.BartGenerativeModel'
+  _target_: 'src.pl_modules.generative_models.bart.BartGenerativeModel'
   bart_model: 'facebook/bart-large'
   dropout: 0.1
   label_smoothing: 0.1  # 0.0 for non label smoothing

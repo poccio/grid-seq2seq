@@ -4,7 +4,7 @@ import hydra
 import torch
 from omegaconf import DictConfig
 
-from nlp_gen.optim.optimizers.radam import RAdam
+from src.optim.optimizers.radam import RAdam
 
 
 class Factory:

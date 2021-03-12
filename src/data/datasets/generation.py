@@ -6,8 +6,8 @@ from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import IterableDataset
 from transformers import PreTrainedTokenizer
 
-from nlp_gen.utils.commons import add_noise_to_value, chunks, flatten
-from nlp_gen.utils.logging import get_project_logger
+from src.utils.commons import add_noise_to_value, chunks, flatten
+from src.utils.logging import get_project_logger
 
 logger = get_project_logger(__name__)
 

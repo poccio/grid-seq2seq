@@ -1,4 +1,4 @@
-project_name: nlp-gen
+project_name: grid-seq2seq
 exp_name: ???
 exp_folder: ./experiments/${exp_name}
 
@@ -7,7 +7,7 @@ hydra:
   run:
     dir: ./experiments/${exp_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
   # customize logging
-  verbose: [ nlp_gen ]
+  verbose: [ grid_seq2seq ]
   job_logging:
     formatters:
       simple:
