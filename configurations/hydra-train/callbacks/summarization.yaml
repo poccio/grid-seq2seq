@@ -1,0 +1,16 @@
+# @package _group_
+
+callbacks:
+  - _target_: "nlp_gen.callbacks.generation.TextGenerationCallback"
+    generation_callbacks:
+      rouge:
+        _target_: 'nlp_gen.callbacks.generation.RougeGenerationCallback'
+    generations:
+      - name: "beam1"
+        glob_translate_path: "data/cnn-dm/validation.tsv"
+        generation_param_conf_path: "configurations/generation/beam.yaml"
+        num_sequences: 1
+        token_batch_size: 800
+        limit: 1000
+        enabled_generation_callbacks:
+          - 'rouge'

@@ -1,0 +1,24 @@
+project_name: nlp-gen
+exp_name: ???
+exp_folder: ./experiments/${exp_name}
+
+hydra:
+  # customize working dir
+  run:
+    dir: ./experiments/${exp_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  # customize logging
+  verbose: [ nlp_gen ]
+  job_logging:
+    formatters:
+      simple:
+        format: '%(asctime)s - %(levelname)s - %(name)s - %(message)s'
+    root:
+      level: WARN
+
+# defaults
+defaults:
+  - callbacks: default
+  - data: parallel
+  - device: cuda
+  - model: bart
+  - training: default

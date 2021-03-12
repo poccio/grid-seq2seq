@@ -1,0 +1,21 @@
+# @package _group_
+
+datamodule:
+  _target_: 'nlp_gen.data.datamodules.simple.SimpleDataModule'
+  num_workers: 0
+  train_dataset:
+    _target_: 'nlp_gen.data.datasets.generation.ParallelDataset.from_file'
+    path: 'data/cnn-dm/train.tsv'
+    max_tokens_per_batch: 1300
+    min_length: 5
+    max_length: 500
+    truncate: true
+    section_size: 10000
+  validation_dataset:
+    _target_: 'nlp_gen.data.datasets.generation.ParallelDataset.from_file'
+    path: 'data/cnn-dm/validation.tsv'
+    max_tokens_per_batch: 1300
+    min_length: 5
+    max_length: 500
+    truncate: true
+    section_size: 10000

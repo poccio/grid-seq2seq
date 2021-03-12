@@ -1,0 +1,6 @@
+# @package _group_
+
+gpus:
+  - 0
+precision: 16
+amp_level: 'O1'
