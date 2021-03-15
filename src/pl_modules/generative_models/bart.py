@@ -39,9 +39,13 @@ class BartGenerativeModel(GenerativeModel):
         **kwargs
     ) -> Union[TAGenerativeModelOutput, GenGenerativeModelOutput]:
 
-        if target.shape[1] > 1:  # training-phase: "target" is provided and we can use the "teacher-forcing" strategy.
+        if (
+            target.shape[1] > 1
+        ):  # training-phase: "target" is provided and we can use the "teacher-forcing" strategy.
 
-            assert not self.generation_mode, 'The "target" is not empty but the GenerativeModel is in "generation mode"'
+            assert (
+                not self.generation_mode
+            ), 'The "target" is not empty but the GenerativeModel is in "generation mode"'
 
             # build target&labels
             decoder_input_ids = target[:, :-1].contiguous()

@@ -16,7 +16,12 @@ logger = get_project_logger(__name__)
 
 
 class GenerationCallback:
-    def __call__(self, translations: List[Tuple[str, str]], module: pl.LightningModule):
+    def __call__(
+        self,
+        name: str,
+        translations: List[Tuple[str, List[str], Optional[str]]],
+        module: pl.LightningModule,
+    ):
         raise NotImplementedError
 
 
@@ -25,14 +30,19 @@ class RougeGenerationCallback(GenerationCallback):
         self.rouge = load_metric("rouge")
 
     def __call__(
-        self, translations: List[Tuple[str, List[str], Optional[str]]], module: pl.LightningModule
+        self,
+        name: str,
+        translations: List[Tuple[str, List[str], Optional[str]]],
+        module: pl.LightningModule,
     ):
         assert all(t[2] is not None for t in translations)
         results = self.rouge.compute(
             predictions=[t[1][0] for t in translations], references=[t[2] for t in translations]
         )
         for k, v in results.items():
-            module.log(f"val_{k}", v.mid.fmeasure, prog_bar=True, on_step=False, on_epoch=True)
+            module.log(
+                f"val_{name}_{k}", v.mid.fmeasure, prog_bar=True, on_step=False, on_epoch=True
+            )
 
 
 class TextGenerationCallback(pl.Callback):
@@ -63,8 +73,6 @@ class TextGenerationCallback(pl.Callback):
         wandb_table = wandb.Table(columns=["Configuration", "Source", "Input", "Pred", "Gold"])
         logger.info("Executing translation callback")
 
-        spec_name2translation_pairs = {}
-
         for (
             name,
             glob_translate_path,
@@ -75,7 +83,7 @@ class TextGenerationCallback(pl.Callback):
             enabled_generation_callbacks,
         ) in self.generations_confs:
 
-            spec_name2translation_pairs[name] = []
+            translation_pairs = []
 
             # translate
 
@@ -118,9 +126,7 @@ class TextGenerationCallback(pl.Callback):
                                 name, source_type, source, translation, gold_output
                             )
 
-                        spec_name2translation_pairs[name].append(
-                            (source, sample_translations, gold_output)
-                        )
+                        translation_pairs.append((source, sample_translations, gold_output))
 
                     if self._epoch == 0:
                         # do only a dry run on first epoch (correspond to sanity check run)
@@ -129,9 +135,8 @@ class TextGenerationCallback(pl.Callback):
             # run callbacks
 
             for callback in enabled_generation_callbacks:
-                self.generation_callbacks[callback](spec_name2translation_pairs[name], pl_module)
+                self.generation_callbacks[callback](name, translation_pairs, pl_module)
 
-        pl_module.spec_name2translation_pairs = spec_name2translation_pairs
         if self._epoch > 0:
             trainer.logger.experiment.log({"translations": wandb_table})
 

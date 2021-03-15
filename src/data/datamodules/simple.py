@@ -33,11 +33,17 @@ class SimpleDataModule(pl.LightningDataModule):
     def setup(self, stage: Optional[str] = None):
         if stage == "fit":
             assert self.train_dataset_conf is not None and self.validation_dataset_conf is not None
-            self.train_dataset = hydra.utils.instantiate(self.train_dataset_conf, tokenizer=self.tokenizer, _recursive_=False)
-            self.validation_dataset = hydra.utils.instantiate(self.validation_dataset_conf, tokenizer=self.tokenizer, _recursive_=False)
+            self.train_dataset = hydra.utils.instantiate(
+                self.train_dataset_conf, tokenizer=self.tokenizer, _recursive_=False
+            )
+            self.validation_dataset = hydra.utils.instantiate(
+                self.validation_dataset_conf, tokenizer=self.tokenizer, _recursive_=False
+            )
         else:
             assert self.test_dataset_conf is not None
-            self.test_dataset = hydra.utils.instantiate(self.test_dataset_conf, tokenizer=self.tokenizer, _recursive_=False)
+            self.test_dataset = hydra.utils.instantiate(
+                self.test_dataset_conf, tokenizer=self.tokenizer, _recursive_=False
+            )
 
     def train_dataloader(self, *args, **kwargs) -> DataLoader:
         return DataLoader(self.train_dataset, batch_size=None, num_workers=self.num_workers)

@@ -7,10 +7,11 @@ from torch.utils.data import IterableDataset
 
 
 class AlternatorIterableDataset(IterableDataset):
-
     def __init__(self, datasets: List[Dict], p: List[float], **kwargs):
         assert len(datasets) == len(p)
-        self.datasets: List[IterableDataset] = [hydra.utils.instantiate(d, **kwargs) for d in datasets]
+        self.datasets: List[IterableDataset] = [
+            hydra.utils.instantiate(d, **kwargs) for d in datasets
+        ]
         self.p = p
         assert np.isclose(sum(self.p), 1.0)
 
