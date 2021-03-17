@@ -6,6 +6,7 @@ import pytorch_lightning as pl
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 from tqdm import tqdm
+from transformers import PreTrainedTokenizer
 
 from src.utils.logging import get_project_logger
 
@@ -13,8 +14,11 @@ logger = get_project_logger(__name__)
 
 
 class CNNDMDataModule(pl.LightningDataModule):
-    def __init__(self, data_dir: str, dataset: Dict, num_workers: int = 0):
+    def __init__(
+        self, tokenizer: PreTrainedTokenizer, data_dir: str, dataset: Dict, num_workers: int = 0
+    ):
         super().__init__()
+        self.tokenizer = tokenizer
         self.data_dir = data_dir
         self.num_workers = num_workers
         self.dataset = dataset
@@ -51,10 +55,10 @@ class CNNDMDataModule(pl.LightningDataModule):
 
     def setup(self, stage: Optional[str] = None):
         if stage == "fit":
-            self.train = hydra.utils.instantiate(self.dataset, path=f"{self.data_dir}/train.tsv")
-            self.val = hydra.utils.instantiate(self.dataset, path=f"{self.data_dir}/validation.tsv")
+            self.train = hydra.utils.instantiate(self.dataset, path=f"{self.data_dir}/train.tsv", tokenizer=self.tokenizer)
+            self.val = hydra.utils.instantiate(self.dataset, path=f"{self.data_dir}/validation.tsv", tokenizer=self.tokenizer)
         else:
-            self.test = hydra.utils.instantiate(self.dataset, path=f"{self.data_dir}/test.tsv")
+            self.test = hydra.utils.instantiate(self.dataset, path=f"{self.data_dir}/test.tsv", tokenizer=self.tokenizer)
 
     def train_dataloader(self, *args, **kwargs) -> DataLoader:
         return DataLoader(self.train, batch_size=None, num_workers=self.num_workers)

@@ -17,7 +17,7 @@ class BartGenerativeModel(GenerativeModel):
 
         super().__init__()
 
-        self.tokenizer = AutoTokenizer.from_pretrained(bart_model)
+        self.tokenizer = AutoTokenizer.from_pretrained(bart_model, add_prefix_space=True)
         self.config = AutoConfig.from_pretrained(bart_model, dropout=dropout)
         self.bart_model = BartForConditionalGeneration.from_pretrained(
             bart_model, config=self.config
