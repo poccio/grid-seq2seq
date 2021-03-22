@@ -126,7 +126,7 @@ class ParallelDataset(GenerativeDataset, IterableDataset):
                 discarded_due_to_max_length += 1
                 if discarded_due_to_max_length % 1_000 == 0:
                     logger.warning(
-                        f"{discarded_due_to_max_length} samples have been discarded due to being longer than minimum length {self.max_length}"
+                        f"{discarded_due_to_max_length} samples have been discarded due to being longer than maximum length {self.max_length}"
                     )
                 continue
 
@@ -151,7 +151,7 @@ class ParallelDataset(GenerativeDataset, IterableDataset):
 
         if discarded_due_to_max_length > 0:
             logger.warning(
-                f"{discarded_due_to_max_length} samples have been discarded due to being longer than minimum length {self.max_length}"
+                f"{discarded_due_to_max_length} samples have been discarded due to being longer than maximum length {self.max_length}"
             )
 
     def __iter__(self) -> Iterator[Dict[str, torch.Tensor]]:

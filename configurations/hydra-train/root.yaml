@@ -18,7 +18,7 @@ hydra:
 # defaults
 defaults:
   - callbacks: default
-  - data: parallel
-  - device: cuda
+  - data: null
+  - device: cpu
   - model: bart
   - training: default

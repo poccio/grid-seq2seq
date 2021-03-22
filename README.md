@@ -40,16 +40,19 @@ encoder-decoder such as Bart on it. You are in the right place!
 
 If you simply run the following:
 ```bash
-PYTHONPATH=$(pwd) python nlp_gen/scripts/model/train.py \
+PYTHONPATH=$(pwd) python src/scripts/model/train.py \
   exp_name=<exp-name> \
-  data.datamodule.train_path=<train-path> \
-  data.datamodule.validation_path=<validation-path>
+  project_name=<project-name> \
+  data=simple \
+  data.datamodule.train_dataset.path=<train-path> \
+  data.datamodule.validation_dataset.path=<validation-path> \
+  device=cuda
 ```
-You get your Bart model, magically fine-tuned on the provided parallel dataset.
-Once the training finishes (and eons have passed), 
+You get your Bart model, magically fine-tuned on the provided parallel dataset and everything logged on WandB, 
+under <project-name>/<exp-name>. Once the training finishes (and eons have passed), 
 you can use the interactive translate script to debug/present simple demos:
 ```bash
-PYTHONPATH=$(pwd) python nlp_gen/scripts/model/translate.py \
+PYTHONPATH=$(pwd) python src/scripts/model/translate.py \
   <path-to-ckpt> -t -n 1 -g configurations/generation/beam.yaml
 ```
 Note the script also support the common file-based translation.
@@ -87,7 +90,7 @@ progresses and, furthermore, you can use such generations to compute both refere
 │       └── training
 ├── data                          # data folder
 ├── experiments                   # experiments folder
-├── nlp_gen       
+├── src       
 │   ├── callbacks                 # callbacks code
 │   ├── data                      # datasets and lightning datamodules
 │   ├── generative_models         # supported generative models wrapped behind an interface
@@ -130,37 +133,39 @@ In this case, we already took care of the first two steps; thus, we can directly
 (if you are not familiar with Hydra, we recommend reading Hydra [intro tutorials](https://hydra.cc/docs/tutorials/intro) to quickly get acquaninted with it),
 launching the training script with arguments that instruct Hydra what components to use:
 
-```
-PYTHONPATH=$(pwd) python nlp_gen/scripts/model/train.py exp_name=bart-sum device=cuda_amp data=cnn_dm model=bart callbacks=summarization
+```bash
+PYTHONPATH=$(pwd) python src/scripts/model/train.py \
+  exp_name=bart-sum \
+  project_name=<project-name> \
+  data=cnn_dm \
+  model=bart \
+  callbacks=summarization \
+  device=cuda_amp
 ```
 
 Once the training finally finishes (and eons have likely passed), check out the translation script. In particular, besides
 the common file-based mode, it features an interactive mode that can be useful for debugging/demos with your colleagues:
 
-```
-PYTHONPATH=$(pwd) python nlp_gen/scripts/model/translate.py <path-to-ckpt> -t -n 1 -g configurations/generation/beam.yaml
+```bash
+PYTHONPATH=$(pwd) python src/scripts/model/translate.py \
+  <path-to-ckpt> -t -n 1 -g configurations/generation/beam.yaml
 ```
 
 ## FAQ and Use Cases
 
 **Q**: I want to use another Generative Model. How?
 
-**A**: You have to create your own model implementing the [GenerativeModel]() interface. The only other module loosely coupled
-to the generative model is the Dataset. As it needs to know how to encode text into tensors, it has some annoying coupling towards
-the embedding and classification layer of your model.
-
-Focusing on the common "My model is a pretrained one from the Transformers library" perspective, this means the dataset
-needs access to the Tokenizer object. We are currently working 
-
-Things get a bit trickier when your model is not part of the Transformers library. In this case, you need to implement 
-both your *Dataset* and the *GenerativeModel*.
-
-**Q**: How can I implement my own Dataset? 
-
-**A**: 
+**A**: It depends. If your model is part of *HuggingFace Transformers*, then you're golden. You just need to wrap it
+behind the GenerativeModel interface and, if needed, write a suitable matching Dataset (or override some parts such as the
+encoding). Consider the case of adding GPT2:
+* You need to write a Dataset tailer for causal language modelling
+* You need to write your GenerativeModel
+Once you do, everything (callbacks, training, translations scripts) will work seamlessly.
 
 **Q**: I want to monitor BLEU during training. How?
 
+**A**: Check how we log Rouge (src.callbacks.generation.RougeGenerationCallback); it's essentially identical to that.
+Once you have implemented your GenerationCallback, you just need to add it to your Hydra callback configuration file.
 
 
 
