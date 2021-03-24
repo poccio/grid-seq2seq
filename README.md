@@ -167,7 +167,7 @@ Once you do, everything (callbacks, training, translations scripts) will work se
 **A**: Check how we log Rouge (src.callbacks.generation.RougeGenerationCallback); it's essentially identical to that.
 Once you have implemented your GenerationCallback, you just need to add it to your Hydra callback configuration file.
 
-## Authors
+## Contributors
 
 * [Edoardo Barba](https://github.com/edobobo)
 * [Luigi Procopio](https://github.com/poccio)
