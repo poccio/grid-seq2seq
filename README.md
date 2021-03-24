@@ -13,7 +13,7 @@
   A simple template to bootstrap your Seq2Seq project
 </h3>
 
-Grid-Seq2Seq is a simple and generic template to bootstrap your next [PyTorch](https://pytorch.org) project on generative 
+Grid-Seq2Seq (Get RID of boilerplate code for Seq2seq) is a simple and generic template to bootstrap your next [PyTorch](https://pytorch.org) project on generative 
 Natural Language Processing models.
 Quickly kickstart your work and get the power of:
 * PyTorch and PyTorch Lightning (no comments needed here)
@@ -158,9 +158,14 @@ PYTHONPATH=$(pwd) python src/scripts/model/translate.py \
 **A**: It depends. If your model is part of *HuggingFace Transformers*, then you're golden. You just need to wrap it
 behind the GenerativeModel interface and, if needed, write a suitable matching Dataset (or override some parts such as the
 encoding). Consider the case of adding GPT2:
-* You need to write a Dataset tailer for causal language modelling
+* You need to write a Dataset tailored for causal language modelling
 * You need to write your GenerativeModel
+
 Once you do, everything (callbacks, training, translations scripts) will work seamlessly.
+
+Conversely, if your model is not part of *HuggingFace Transformers*, you may need to refactor part of the code: for example,
+we currently have an explicit coupling in the training script toward *HuggingFace Transformers* Tokenizer object.
+We welcome contributions in this direction.
 
 **Q**: I want to monitor BLEU during training. How?
 
