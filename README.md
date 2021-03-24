@@ -13,7 +13,7 @@
   A simple template to bootstrap your Seq2Seq project
 </h3>
 
-Grid-Seq2Seq (Get RID of boilerplate code for Seq2seq) is a simple and generic template to bootstrap your next [PyTorch](https://pytorch.org) project on generative 
+Grid-Seq2Seq (Get RID of boilerplate code for Seq2Seq) is a simple and generic template to bootstrap your next [PyTorch](https://pytorch.org) project on generative 
 Natural Language Processing models.
 Quickly kickstart your work and get the power of:
 * PyTorch and PyTorch Lightning (no comments needed here)
