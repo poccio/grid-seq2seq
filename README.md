@@ -30,7 +30,7 @@ When all else fails, read the - rest of the - instructions (a.k.a. the [FAQs](#f
 
 If you use this template, please add the following shield to your README:
 <br>
-[![](https://img.shields.io/badge/-NLP--Gen-blueviolet?style=for-the-badge&logo=github)](https://github.com/poccio/nlp-gen)
+[![](https://img.shields.io/badge/-Grid--Seq2Seq-blueviolet?style=for-the-badge&logo=github)](https://github.com/poccio/nlp-gen)
 
 ## Quick Tour
 
