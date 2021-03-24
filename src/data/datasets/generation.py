@@ -12,7 +12,12 @@ from src.utils.logging import get_project_logger
 logger = get_project_logger(__name__)
 
 
-class GenerativeDataset:
+class GenerativeDataset(IterableDataset):
+    """Abstract interface, adding two additional classmethods to the IterableDataset interface.
+
+    These methods are needed for the translate script to work.
+    """
+
     @classmethod
     def from_lines(cls, lines: Iterable[str], **kwargs):
         raise NotImplementedError
@@ -22,7 +27,14 @@ class GenerativeDataset:
         raise NotImplementedError
 
 
-class ParallelDataset(GenerativeDataset, IterableDataset):
+class ParallelDataset(GenerativeDataset):
+    """Dataset useful when dealing with conditioned generation tasks (e.g. MT).
+
+    The most relevant feature of this class is that its input is fed as the output a closure: from_lines and from_file
+    setup a closure whose execution yields an Iterable[str]. This allows for the same code to be fully shared across the
+    two modalities (and additional benefits in more complex scenarios).
+    """
+
     @classmethod
     def from_lines(cls, lines: Iterable[str], **kwargs):
         return cls(lambda: lines, **kwargs)

@@ -11,6 +11,8 @@ logger = get_project_logger(__name__)
 
 
 class SimpleDataModule(pl.LightningDataModule):
+    """Simple datamodule, useful when datamodules are not really needed (e.g. train using ParallelDataset on a already-downlaoded tsv file)"""
+
     def __init__(
         self,
         tokenizer: PreTrainedTokenizer,

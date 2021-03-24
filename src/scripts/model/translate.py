@@ -27,6 +27,8 @@ def translate(
     # todo only works on single gpu
     device = next(module.parameters()).device
 
+    # todo unnecessary coupling toward ParallelDataset
+    # rather, should find and instantiate the appropriate GenerativeDataset
     dataset = ParallelDataset.from_lines(
         sources,
         tokenizer=module.tokenizer,

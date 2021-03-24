@@ -55,10 +55,16 @@ class CNNDMDataModule(pl.LightningDataModule):
 
     def setup(self, stage: Optional[str] = None):
         if stage == "fit":
-            self.train = hydra.utils.instantiate(self.dataset, path=f"{self.data_dir}/train.tsv", tokenizer=self.tokenizer)
-            self.val = hydra.utils.instantiate(self.dataset, path=f"{self.data_dir}/validation.tsv", tokenizer=self.tokenizer)
+            self.train = hydra.utils.instantiate(
+                self.dataset, path=f"{self.data_dir}/train.tsv", tokenizer=self.tokenizer
+            )
+            self.val = hydra.utils.instantiate(
+                self.dataset, path=f"{self.data_dir}/validation.tsv", tokenizer=self.tokenizer
+            )
         else:
-            self.test = hydra.utils.instantiate(self.dataset, path=f"{self.data_dir}/test.tsv", tokenizer=self.tokenizer)
+            self.test = hydra.utils.instantiate(
+                self.dataset, path=f"{self.data_dir}/test.tsv", tokenizer=self.tokenizer
+            )
 
     def train_dataloader(self, *args, **kwargs) -> DataLoader:
         return DataLoader(self.train, batch_size=None, num_workers=self.num_workers)

@@ -6,6 +6,8 @@ import torch
 
 
 class GenerativePLModule(pl.LightningModule):
+    """Standard LightningModule wrapping a GenerativeModel."""
+
     def __init__(self, generative_model: Dict, optim_conf: Dict):
 
         super().__init__()

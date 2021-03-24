@@ -7,6 +7,11 @@ from torch.utils.data import IterableDataset
 
 
 class AlternatorIterableDataset(IterableDataset):
+    """IterableDataset that allows for batch alternation, according to specified probabilities, among multiple IterableDataset-s.
+
+    Iteration continues until all datasets are exhausted, restarting all those that finish until this condition is met.
+    """
+
     def __init__(self, datasets: List[Dict], p: List[float], **kwargs):
         assert len(datasets) == len(p)
         self.datasets: List[IterableDataset] = [

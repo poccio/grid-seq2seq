@@ -20,7 +20,7 @@ def train(conf: omegaconf.DictConfig) -> None:
     # data_module declaration
     pl_data_module = hydra.utils.instantiate(
         conf.data.datamodule,
-        tokenizer=pl_module.tokenizer,
+        tokenizer=pl_module.tokenizer,  # todo bad coupling towards huggingface
         _recursive_=False,
     )
 
