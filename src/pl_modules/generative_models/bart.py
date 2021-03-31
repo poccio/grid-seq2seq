@@ -73,10 +73,9 @@ class BartGenerativeModel(GenerativeModel):
                 self._label_smoothing,
                 padding_mask=labels_padding_mask.view(-1),
             )
-            loss = smoothed_loss
 
             # return
-            return TAGenerativeModelOutput(loss=loss, logits=logits, predictions=logits.argmax(-1))
+            return TAGenerativeModelOutput(loss=smoothed_loss, plain_loss=nll_loss, logits=logits, predictions=logits.argmax(-1))
 
         else:  # autoregressive-phase: the only token in target is "begin of sequence" (<s> for bart).
 

@@ -1,10 +1,11 @@
 import os
 
-import omegaconf
 import hydra
-
+import omegaconf
 import pytorch_lightning as pl
-from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
+from pytorch_lightning.callbacks import EarlyStopping
+
+from src.callbacks.best_checkpoint import ModelCheckpointWithBest
 
 
 def train(conf: omegaconf.DictConfig) -> None:
@@ -36,7 +37,7 @@ def train(conf: omegaconf.DictConfig) -> None:
     monitor = monitor[1:]
 
     callbacks.append(
-        ModelCheckpoint(
+        ModelCheckpointWithBest(
             monitor=monitor,
             mode=mode,
             dirpath=f"checkpoints",

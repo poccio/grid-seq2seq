@@ -1,5 +1,3 @@
-# @package _group_
-
 datamodule:
   _target_: 'src.data.datamodules.cnn_dm.CNNDMDataModule'
   data_dir: 'data/cnn-dm'

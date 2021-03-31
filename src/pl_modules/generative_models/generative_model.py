@@ -10,12 +10,14 @@ class TAGenerativeModelOutput:
     """Dataclass storing the returned fields of a teacher-forced forward.
 
     Args:
-        loss (torch.Tensor)
+        loss (torch.Tensor): loss upon which the backprop should be performed (affected by regularizers such as label smoothing)
+        plain_loss (torch.Tensor): plain loss unaffected by regularizers
         logits (torch.Tensor)
         predictions (torch.Tensor)
     """
 
     loss: torch.Tensor
+    plain_loss: torch.Tensor
     logits: torch.Tensor
     predictions: torch.Tensor
 

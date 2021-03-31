@@ -46,7 +46,7 @@ class GenerativePLModule(pl.LightningModule):
 
         # perplexity
         self.log(
-            "train_ppl", torch.exp(forward_output.loss), prog_bar=True, on_step=False, on_epoch=True
+            "train_ppl", torch.exp(forward_output.plain_loss), prog_bar=True, on_step=False, on_epoch=True
         )
 
         # accuracy
@@ -69,7 +69,7 @@ class GenerativePLModule(pl.LightningModule):
 
         # perplexity
         self.log(
-            "val_ppl", torch.exp(forward_output.loss), prog_bar=True, on_step=False, on_epoch=True
+            "val_ppl", torch.exp(forward_output.plain_loss), prog_bar=True, on_step=False, on_epoch=True
         )
 
         # accuracy

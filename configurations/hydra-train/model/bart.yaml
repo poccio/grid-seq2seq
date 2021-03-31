@@ -1,5 +1,3 @@
-# @package _group_
-
 _target_: 'src.pl_modules.generative_pl_module.GenerativePLModule'
 generative_model:
   _target_: 'src.pl_modules.generative_models.bart.BartGenerativeModel'
