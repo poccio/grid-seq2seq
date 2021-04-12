@@ -67,9 +67,6 @@ class TextGenerationCallback(pl.Callback):
 
     def on_validation_epoch_start(self, trainer: pl.Trainer, pl_module: pl.LightningModule):
 
-        pl_module.freeze()
-        pl_module.eval()
-
         wandb_table = wandb.Table(columns=["Configuration", "Source", "Input", "Pred", "Gold"])
         logger.info("Executing translation callback")
 
@@ -142,6 +139,3 @@ class TextGenerationCallback(pl.Callback):
 
         logger.info("Translation callback completed")
         self._epoch += 1
-
-        pl_module.unfreeze()
-        pl_module.train()
